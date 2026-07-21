@@ -7,7 +7,7 @@ import { getBestSellers, getNewArrivals } from "../data/products";
 
 const heroImages = [
   {
-    url: "",
+    url: "https://images.unsplash.com/photo-1523035274455-b2e5c6d5c2e0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBkYXJrJTIwY2hvY29sYXRlJTIwcHJlbWl1bSUyMGFydGlzYW58ZW58MXx8fHwxNzg0NjI1MzQwfDA&ixlib=rb-4.1.0&q=80&w=1920",
     video: "/src/imports/main.mp4",
     title: "The Art of Chocolate",
     subtitle: "Handcrafted from the world's finest single-origin cacao",
@@ -15,7 +15,7 @@ const heroImages = [
     ctaHref: "/shop",
   },
   {
-    url: "",
+    url: "https://images.unsplash.com/photo-1548741487-18d363dc4469?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaG9jb2xhdGUlMjBnaWZ0JTIwYm94JTIwbHV4dXJ5JTIwcGFja2FnaW5nfGVufDF8fHx8MTc4NDYyNTM0NXww&ixlib=rb-4.1.0&q=80&w=1920",
     video: "/src/imports/main.mp4",
     title: "Gift Extraordinaire",
     subtitle: "Curated luxury gift boxes for every occasion",
@@ -23,7 +23,7 @@ const heroImages = [
     ctaHref: "/gift-boxes",
   },
   {
-    url: "",
+    url: "https://images.unsplash.com/photo-1526081715791-7c538f86060e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHw0fHxjaG9jb2xhdGUlMjBnaWZ0JTIwYm94JTIwbHV4dXJ5JTIwcGFja2FnaW5nfGVufDF8fHx8MTc4NDYyNTM0NXww&ixlib=rb-4.1.0&q=80&w=1920",
     video: "/src/imports/main.mp4",
     title: "Corporate Elegance",
     subtitle: "Bespoke gifting solutions for discerning businesses",
