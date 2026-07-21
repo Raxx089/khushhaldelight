@@ -8,7 +8,7 @@ import { getBestSellers, getNewArrivals } from "../data/products";
 const heroImages = [
   {
     url: "https://images.unsplash.com/photo-1523035274455-b2e5c6d5c2e0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBkYXJrJTIwY2hvY29sYXRlJTIwcHJlbWl1bSUyMGFydGlzYW58ZW58MXx8fHwxNzg0NjI1MzQwfDA&ixlib=rb-4.1.0&q=80&w=1920",
-    video: "https://drive.google.com/file/d/1LWCKzqILSH0i7GC_qwsaA3Jf31fcbelf/view?usp=sharing",
+    video: "/src/imports/main.mp4"",
     title: "The Art of Chocolate",
     subtitle: "Handcrafted from the world's finest single-origin cacao",
     cta: "Explore Collection",
