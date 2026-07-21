@@ -5,12 +5,9 @@ import { ArrowRight, Star, ChevronLeft, ChevronRight, Sparkles, Package, Truck, 
 import { ProductCard } from "../components/ProductCard";
 import { getBestSellers, getNewArrivals } from "../data/products";
 
-const heroVideo = new URL("../../imports/main.mp4", import.meta.url).href;
-
 const heroImages = [
   {
     url: "https://images.unsplash.com/photo-1523035274455-b2e5c6d5c2e0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBkYXJrJTIwY2hvY29sYXRlJTIwcHJlbWl1bSUyMGFydGlzYW58ZW58MXx8fHwxNzg0NjI1MzQwfDA&ixlib=rb-4.1.0&q=80&w=1920",
-    video: heroVideo,
     title: "The Art of Chocolate",
     subtitle: "Handcrafted from the world's finest single-origin cacao",
     cta: "Explore Collection",
@@ -18,7 +15,6 @@ const heroImages = [
   },
   {
     url: "https://images.unsplash.com/photo-1548741487-18d363dc4469?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaG9jb2xhdGUlMjBnaWZ0JTIwYm94JTIwbHV4dXJ5JTIwcGFja2FnaW5nfGVufDF8fHx8MTc4NDYyNTM0NXww&ixlib=rb-4.1.0&q=80&w=1920",
-    video: heroVideo,
     title: "Gift Extraordinaire",
     subtitle: "Curated luxury gift boxes for every occasion",
     cta: "Shop Gift Boxes",
@@ -26,7 +22,6 @@ const heroImages = [
   },
   {
     url: "https://images.unsplash.com/photo-1526081715791-7c538f86060e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHw0fHxjaG9jb2xhdGUlMjBnaWZ0JTIwYm94JTIwbHV4dXJ5JTIwcGFja2FnaW5nfGVufDF8fHx8MTc4NDYyNTM0NXww&ixlib=rb-4.1.0&q=80&w=1920",
-    video: heroVideo,
     title: "Corporate Elegance",
     subtitle: "Bespoke gifting solutions for discerning businesses",
     cta: "Corporate Gifting",
@@ -110,13 +105,10 @@ export function Home() {
       <section ref={heroRef} className="relative h-screen min-h-[600px] flex items-center overflow-hidden">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <AnimatePresence mode="wait">
-            <motion.video
+            <motion.img
               key={heroIdx}
-              src={heroImages[heroIdx].video}
-              autoPlay
-              loop
-              muted
-              playsInline
+              src={heroImages[heroIdx].url}
+              alt=""
               className="w-full h-full object-cover"
               initial={{ opacity: 0, scale: 1.05 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -149,8 +141,8 @@ export function Home() {
                 ✦ Khushhal Delight · Est. 2018
               </motion.p>
               <h1
-                className="text-white mb-6 font-sans-brand"
-                style={{ fontSize: "clamp(2.8rem, 6vw, 5rem)", fontWeight: 700, lineHeight: 1.1 }}
+                className="text-white mb-6"
+                style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2.8rem, 6vw, 5rem)", fontWeight: 700, lineHeight: 1.1 }}
               >
                 {heroImages[heroIdx].title}
               </h1>
@@ -224,7 +216,7 @@ export function Home() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-14">
           <p className="text-[var(--gold-600)] uppercase tracking-[0.4em] text-xs mb-3">Our Finest</p>
-          <h2 style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", fontSize: "clamp(2rem, 4vw, 3rem)", color: "var(--choco-900)", fontWeight: 700 }}>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 4vw, 3rem)", color: "var(--choco-900)", fontWeight: 700 }}>
             Best Sellers
           </h2>
           <p className="text-[var(--muted-foreground)] mt-3 max-w-md mx-auto">
@@ -258,7 +250,7 @@ export function Home() {
             <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(26,13,6,0.85) 0%, rgba(26,13,6,0.2) 60%, transparent 100%)" }} />
             <div className="absolute bottom-0 left-0 p-8">
               <p className="text-[var(--gold-300)] text-xs tracking-widest uppercase mb-2">Gift Boxes</p>
-              <h3 className="text-white mb-3" style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", fontSize: "1.8rem", fontWeight: 700 }}>
+              <h3 className="text-white mb-3" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.8rem", fontWeight: 700 }}>
                 The Perfect Gift
               </h3>
               <span className="inline-flex items-center gap-2 text-white/90 text-sm font-medium group-hover:gap-3 transition-all">
@@ -275,7 +267,7 @@ export function Home() {
             <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(26,13,6,0.85) 0%, rgba(26,13,6,0.2) 60%, transparent 100%)" }} />
             <div className="absolute bottom-0 left-0 p-8">
               <p className="text-[var(--gold-300)] text-xs tracking-widest uppercase mb-2">Corporate</p>
-              <h3 className="text-white mb-3" style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", fontSize: "1.8rem", fontWeight: 700 }}>
+              <h3 className="text-white mb-3" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.8rem", fontWeight: 700 }}>
                 Corporate Gifting
               </h3>
               <span className="inline-flex items-center gap-2 text-white/90 text-sm font-medium group-hover:gap-3 transition-all">
@@ -291,7 +283,7 @@ export function Home() {
         <div className="flex items-end justify-between mb-12">
           <div>
             <p className="text-[var(--gold-600)] uppercase tracking-[0.4em] text-xs mb-3">Just Arrived</p>
-            <h2 style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", fontSize: "clamp(1.8rem, 4vw, 2.8rem)", color: "var(--choco-900)", fontWeight: 700 }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.8rem)", color: "var(--choco-900)", fontWeight: 700 }}>
               New Arrivals
             </h2>
           </div>
@@ -320,7 +312,7 @@ export function Home() {
             transition={{ duration: 0.7 }}
           >
             <p className="text-[var(--gold-300)] uppercase tracking-[0.4em] text-xs mb-4">Personalized</p>
-            <h2 className="text-white mb-6" style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 700 }}>
+            <h2 className="text-white mb-6" style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 700 }}>
               Build Your Own Box
             </h2>
             <p className="text-[var(--cream-300)] text-lg mb-10 max-w-xl mx-auto leading-relaxed">
@@ -355,7 +347,7 @@ export function Home() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-14">
           <p className="text-[var(--gold-600)] uppercase tracking-[0.4em] text-xs mb-3">The Khushhal Promise</p>
-          <h2 style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", fontSize: "clamp(2rem, 4vw, 3rem)", color: "var(--choco-900)", fontWeight: 700 }}>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 4vw, 3rem)", color: "var(--choco-900)", fontWeight: 700 }}>
             Why Choose Us
           </h2>
         </div>
@@ -376,7 +368,7 @@ export function Home() {
               >
                 <Icon size={22} style={{ color: "var(--choco-700)" }} />
               </div>
-              <h3 style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", color: "var(--choco-800)", fontSize: "1.1rem", fontWeight: 600 }}>
+              <h3 style={{ fontFamily: "'Playfair Display', serif", color: "var(--choco-800)", fontSize: "1.1rem", fontWeight: 600 }}>
                 {title}
               </h3>
               <p className="text-[var(--muted-foreground)] text-sm mt-2 leading-relaxed">{desc}</p>
@@ -390,7 +382,7 @@ export function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-14">
             <p className="text-[var(--gold-600)] uppercase tracking-[0.4em] text-xs mb-3">What They Say</p>
-            <h2 style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", fontSize: "clamp(2rem, 4vw, 3rem)", color: "var(--choco-900)", fontWeight: 700 }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 4vw, 3rem)", color: "var(--choco-900)", fontWeight: 700 }}>
               Loved by Thousands
             </h2>
             <div className="flex items-center justify-center gap-2 mt-4">
@@ -463,7 +455,7 @@ export function Home() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-10">
           <p className="text-[var(--gold-600)] uppercase tracking-[0.4em] text-xs mb-3">@khushhaldelight</p>
-          <h2 style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "var(--choco-900)", fontWeight: 700 }}>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "var(--choco-900)", fontWeight: 700 }}>
             Life in Chocolate
           </h2>
         </div>
@@ -507,7 +499,7 @@ export function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-white" style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 700, color: "var(--gold-400)" }}>
+              <p className="text-white" style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 700, color: "var(--gold-400)" }}>
                 {number}
               </p>
               <p className="text-[var(--cream-300)] text-sm mt-1">{label}</p>
@@ -533,7 +525,7 @@ export function Home() {
           <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(26,13,6,0.9) 0%, rgba(26,13,6,0.4) 100%)" }} />
           <div className="relative z-10 p-10 md:p-16 max-w-lg">
             <p className="text-[var(--gold-300)] uppercase tracking-widest text-xs mb-4">For Businesses</p>
-            <h2 className="text-white mb-4" style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 700 }}>
+            <h2 className="text-white mb-4" style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 700 }}>
               Corporate Gifting Made Exceptional
             </h2>
             <p className="text-[var(--cream-300)] mb-8 leading-relaxed">
