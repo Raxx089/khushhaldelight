@@ -101,7 +101,7 @@ export function Corporate() {
       {/* Benefits */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-14">
-          <p className="text-[var(--gold-600)] uppercase tracking-[0.4em] text-xs mb-3">Why Khushhal Delight</p>
+          <p className="text-[var(--gold-600)] uppercase tracking-[0.4em] text-xs mb-3">Why TT Chocolates</p>
           <h2 style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", color: "var(--choco-900)", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700 }}>
             The Corporate Advantage
           </h2>

@@ -82,7 +82,7 @@ export function Navbar() {
             <Link to="/" className="flex items-center">
               <img
                 src={logoImg}
-                alt="Khushhal Delight"
+                alt="TT Chocolates"
                 className="h-12 md:h-14 w-auto object-contain rounded-full"
                 style={{ filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.3))" }}
               />
@@ -237,7 +237,7 @@ export function Navbar() {
                   </div>
                 ))}
                 <div className="pt-4 pb-2 flex justify-center">
-                  <img src={logoImg} alt="Khushhal Delight" className="h-16 w-auto object-contain rounded-full" />
+                  <img src={logoImg} alt="TT Chocolates" className="h-16 w-auto object-contain rounded-full" />
                 </div>
                 <div className="flex gap-4">
                   <Link to="/login" className="flex-1 text-center py-2.5 rounded-lg bg-[var(--choco-800)] text-white text-sm font-medium">

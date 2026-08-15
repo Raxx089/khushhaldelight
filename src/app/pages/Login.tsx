@@ -34,7 +34,7 @@ export function Login() {
         />
         <div className="relative z-10">
           <Link to="/">
-            <img src={logoImg} alt="Khushhal Delight" className="h-20 w-auto object-contain rounded-full" style={{ filter: "drop-shadow(0 2px 12px rgba(201,162,39,0.5))" }} />
+            <img src={logoImg} alt="TT Chocolates" className="h-20 w-auto object-contain rounded-full" style={{ filter: "drop-shadow(0 2px 12px rgba(201,162,39,0.5))" }} />
           </Link>
         </div>
         <div className="relative z-10">
@@ -54,7 +54,7 @@ export function Login() {
         </div>
         <div className="relative z-10 p-6 rounded-2xl" style={{ background: "rgba(255,251,245,0.1)", backdropFilter: "blur(8px)", border: "1px solid rgba(201,162,39,0.2)" }}>
           <p className="text-white/90 italic" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>
-            "Khushhal Delight has completely changed how I think about chocolate. Each piece is a work of art."
+            "TT Chocolates has completely changed how I think about chocolate. Each piece is a work of art."
           </p>
           <p className="text-[var(--gold-300)] text-sm mt-2">— Priya S., Mumbai</p>
         </div>
@@ -65,7 +65,7 @@ export function Login() {
         <div className="w-full max-w-md">
           {/* Logo for mobile */}
           <Link to="/" className="flex mb-8 lg:hidden">
-            <img src={logoImg} alt="Khushhal Delight" className="h-16 w-auto object-contain rounded-full" />
+            <img src={logoImg} alt="TT Chocolates" className="h-16 w-auto object-contain rounded-full" />
           </Link>
 
           {/* Tabs */}
@@ -97,7 +97,7 @@ export function Login() {
                     <h2 style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", color: "var(--choco-900)", fontSize: "1.8rem", fontWeight: 700 }}>
                       Welcome Back
                     </h2>
-                    <p className="text-sm text-[var(--muted-foreground)] mt-1">Sign in to your Khushhal Delight account</p>
+                    <p className="text-sm text-[var(--muted-foreground)] mt-1">Sign in to your TT Chocolates account</p>
                   </div>
 
                   {/* Google */}
@@ -161,7 +161,7 @@ export function Login() {
                     <h2 style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", color: "var(--choco-900)", fontSize: "1.8rem", fontWeight: 700 }}>
                       Create Account
                     </h2>
-                    <p className="text-sm text-[var(--muted-foreground)] mt-1">Join Khushhal Delight and get 10% off your first order</p>
+                    <p className="text-sm text-[var(--muted-foreground)] mt-1">Join TT Chocolates and get 10% off your first order</p>
                   </div>
 
                   <button type="button" className="w-full py-3.5 rounded-xl border border-[var(--border)] bg-white flex items-center justify-center gap-3 text-sm font-medium hover:bg-[var(--cream-100)] transition-colors shadow-sm">

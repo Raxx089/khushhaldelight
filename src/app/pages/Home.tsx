@@ -34,7 +34,7 @@ const reviews = [
     name: "Priya Sharma",
     location: "Mumbai",
     rating: 5,
-    text: "Khushhal Delight is unlike anything I've tasted. The 85% Noir Intense is hauntingly good — complex, smooth, and absolutely addictive. I've been ordering every month.",
+    text: "TT Chocolates is unlike anything I've tasted. The 85% Noir Intense is hauntingly good — complex, smooth, and absolutely addictive. I've been ordering every month.",
     avatar: "PS",
   },
   {
@@ -55,7 +55,7 @@ const reviews = [
     name: "Vikram Nair",
     location: "Chennai",
     rating: 5,
-    text: "I've gifted Khushhal Delight at two weddings now. Both couples were blown away. Their festive box is the only gift anyone talks about.",
+    text: "I've gifted TT Chocolates at two weddings now. Both couples were blown away. Their festive box is the only gift anyone talks about.",
     avatar: "VN",
   },
   {
@@ -138,7 +138,7 @@ export function Home() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                ✦ Khushhal Delight · Est. 2018
+                ✦ TT Chocolates · Est. 2018
               </motion.p>
               <h1
                 className="text-white mb-6"
@@ -346,7 +346,7 @@ export function Home() {
       {/* ── Why Choose Us ── */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-14">
-          <p className="text-[var(--gold-600)] uppercase tracking-[0.4em] text-xs mb-3">The Khushhal Promise</p>
+          <p className="text-[var(--gold-600)] uppercase tracking-[0.4em] text-xs mb-3">The TT Chocolates Promise</p>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 4vw, 3rem)", color: "var(--choco-900)", fontWeight: 700 }}>
             Why Choose Us
           </h2>
@@ -454,7 +454,7 @@ export function Home() {
       {/* ── Instagram Feed ── */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-10">
-          <p className="text-[var(--gold-600)] uppercase tracking-[0.4em] text-xs mb-3">@khushhaldelight</p>
+          <p className="text-[var(--gold-600)] uppercase tracking-[0.4em] text-xs mb-3">@ttchocolates</p>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", color: "var(--choco-900)", fontWeight: 700 }}>
             Life in Chocolate
           </h2>

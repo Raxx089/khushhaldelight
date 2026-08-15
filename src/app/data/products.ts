@@ -135,7 +135,7 @@ export const products: Product[] = [
     rating: 4.9,
     reviewCount: 412,
     badge: "Most Gifted",
-    description: "Our most celebrated collection — 24 masterfully crafted chocolates representing the full spectrum of Khushhal Delight's artistry. From intense dark ganaches to creamy milk pralines, each piece tells a story.",
+    description: "Our most celebrated collection — 24 masterfully crafted chocolates representing the full spectrum of TT Chocolates' artistry. From intense dark ganaches to creamy milk pralines, each piece tells a story.",
     ingredients: "Assorted chocolate varieties — see individual flavors inside",
     allergens: "Contains milk, soy, nuts. May contain gluten.",
     isBestSeller: true,

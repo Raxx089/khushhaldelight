@@ -159,9 +159,16 @@
     @apply border-border outline-ring/50;
   }
 
+  :root {
+    --font-display: 'Playfair Display', serif;
+    --font-script: 'Great Vibes', cursive;
+    --font-heading: 'Cinzel', serif;
+  }
+
   body {
     @apply bg-background text-foreground;
-    font-family: 'Montserrat', 'DM Sans', system-ui, sans-serif;
+    font-family: 'Montserrat', 'Segoe UI', sans-serif;
+    letter-spacing: 0.01em;
   }
 
   html {
@@ -170,7 +177,8 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', 'DM Sans', system-ui, sans-serif;
+    font-family: 'Cinzel', 'Playfair Display', serif;
+    letter-spacing: 0.04em;
   }
 
   h1 {
@@ -217,11 +225,24 @@
   }
 
   .font-serif {
-    font-family: 'Montserrat', 'DM Sans', system-ui, sans-serif;
+    font-family: var(--font-display);
   }
 
   .font-sans-brand {
-    font-family: 'Montserrat', 'DM Sans', system-ui, sans-serif;
+    font-family: 'Cinzel', serif;
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-script {
+    font-family: var(--font-script);
+    letter-spacing: 0.04em;
+  }
+
+  .font-heading {
+    font-family: var(--font-heading);
   }
 
   .font-cormorant {

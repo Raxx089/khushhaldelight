@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { Leaf, Award, Heart, Globe, Users, Star } from "lucide-react";
 
 const milestones = [
-  { year: "2018", title: "The Beginning", desc: "Khushhal Delight was born in a small Mumbai kitchen with a simple dream: to make India's finest chocolate." },
+  { year: "2018", title: "The Beginning", desc: "TT Chocolates was born in a small Mumbai kitchen with a simple dream: to make India's finest chocolate." },
   { year: "2019", title: "First Award", desc: "Won the Academy of Chocolate Gold Award for our Madagascar 72% — our first international recognition." },
   { year: "2020", title: "Growing Family", desc: "Expanded to our artisan chocolate laboratory in Bandra, bringing on 12 master chocolatiers." },
   { year: "2021", title: "Going Direct", desc: "Launched our direct-to-consumer platform, delivering luxury to doorsteps across India." },
