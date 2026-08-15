@@ -178,7 +178,7 @@ export function Login() {
                   {[
                     { label: "Full Name", type: "text", key: "name", icon: null, placeholder: "Priya Sharma" },
                     { label: "Email Address", type: "email", key: "email", icon: Mail, placeholder: "you@example.com" },
-                    { label: "Phone Number", type: "tel", key: "phone", icon: Phone, placeholder: "+91 98765 43210" },
+                    { label: "Phone Number", type: "tel", key: "phone", icon: Phone, placeholder: "+91 8796729435" },
                   ].map(({ label, type, key, icon: Icon, placeholder }) => (
                     <div key={key}>
                       <label className="block text-xs font-semibold text-[var(--choco-800)] mb-1.5 uppercase tracking-wide">{label}</label>

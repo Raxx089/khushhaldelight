@@ -263,8 +263,8 @@ export function Corporate() {
         )}
 
         <div className="mt-8 flex flex-col sm:flex-row gap-4 text-center sm:text-left">
-          <a href="tel:+919876543210" className="flex items-center justify-center gap-2 text-sm text-[var(--choco-800)] font-medium hover:text-[var(--gold-600)] transition-colors">
-            <Phone size={16} className="text-[var(--gold-500)]" /> +91 98765 43210
+          <a href="tel:+918796729435" className="flex items-center justify-center gap-2 text-sm text-[var(--choco-800)] font-medium hover:text-[var(--gold-600)] transition-colors">
+            <Phone size={16} className="text-[var(--gold-500)]" /> +91 8796729435
           </a>
           <a href="mailto:corporate@khushhaldelight.in" className="flex items-center justify-center gap-2 text-sm text-[var(--choco-800)] font-medium hover:text-[var(--gold-600)] transition-colors">
             <Mail size={16} className="text-[var(--gold-500)]" /> corporate@khushhaldelight.in

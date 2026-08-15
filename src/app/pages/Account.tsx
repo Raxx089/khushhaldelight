@@ -32,7 +32,7 @@ export function Account() {
             <h1 className="text-white" style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", fontSize: "1.8rem", fontWeight: 700 }}>
               Priya Sharma
             </h1>
-            <p className="text-[var(--cream-300)] text-sm">priya.sharma@example.com · Member since 2023</p>
+            <p className="text-[var(--cream-300)] text-sm">khushhaldelight@gmail.com · Member since 2023</p>
             <div className="flex items-center gap-4 mt-2">
               <span className="flex items-center gap-1 text-xs text-[var(--gold-300)]">
                 <Star size={12} fill="currentColor" /> Gold Member
@@ -190,7 +190,7 @@ export function Account() {
                   </h2>
                   <div className="grid sm:grid-cols-2 gap-4">
                     {[
-                      { label: "Home", address: "42, Linking Road, Bandra West, Mumbai 400050", default: true },
+                      { label: "Home", address: "Sector 23A ITM Enclave Gurgaon Haryana 122017", default: true },
                       { label: "Office", address: "Level 12, BKC Tower, Bandra Kurla Complex, Mumbai 400051", default: false },
                     ].map((a) => (
                       <div key={a.label} className="p-5 rounded-xl border-2 bg-white" style={{ borderColor: a.default ? "var(--gold-400)" : "var(--border)" }}>
@@ -220,8 +220,8 @@ export function Account() {
                   <div className="bg-white rounded-2xl p-6 border border-[var(--border)] space-y-5">
                     {[
                       { label: "Full Name", value: "Priya Sharma" },
-                      { label: "Email", value: "priya.sharma@example.com" },
-                      { label: "Phone", value: "+91 98765 43210" },
+                      { label: "Email", value: "khushhaldelight@gmail.com" },
+                      { label: "Phone", value: "+91 8796729435" },
                       { label: "Birthday", value: "March 15" },
                     ].map((field) => (
                       <div key={field.label} className="flex items-center justify-between py-3 border-b border-[var(--border)] last:border-0">

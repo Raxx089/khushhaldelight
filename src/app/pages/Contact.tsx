@@ -55,17 +55,17 @@ export function Contact() {
               {
                 icon: Phone,
                 title: "Phone",
-                lines: ["+91 98765 43210", "Mon–Sat, 9 AM–7 PM IST"],
+                lines: ["+91 8796729435", "Mon–Sat, 9 AM–7 PM IST"],
               },
               {
                 icon: Mail,
                 title: "Email",
-                lines: ["hello@khushhaldelight.in", "Replies within 24 hours"],
+                lines: ["khushhaldelight@gmail.com", "Replies within 24 hours"],
               },
               {
                 icon: MapPin,
                 title: "Visit Us",
-                lines: ["42 Cocoa Lane, Bandra West", "Mumbai, Maharashtra 400050"],
+                lines: ["Sector 23A ITM Enclave", "Gurgaon Haryana 122017"],
               },
               {
                 icon: Clock,

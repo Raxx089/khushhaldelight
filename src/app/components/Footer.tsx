@@ -97,15 +97,15 @@ export function Footer() {
             <div className="mt-6 space-y-2 text-sm text-[var(--cream-300)]">
               <div className="flex items-center gap-2">
                 <Phone size={14} className="text-[var(--gold-400)] shrink-0" />
-                <span>+91 98765 43210</span>
+                <span>+91 8796729435</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail size={14} className="text-[var(--gold-400)] shrink-0" />
-                <span>hello@khushhaldelight.in</span>
+                <span>khushhaldelight@gmail.com</span>
               </div>
               <div className="flex items-start gap-2">
                 <MapPin size={14} className="text-[var(--gold-400)] shrink-0 mt-0.5" />
-                <span>42 Cocoa Lane, Bandra West, Mumbai 400050</span>
+                <span>Sector 23A ITM Enclave Gurgaon Haryana 122017</span>
               </div>
             </div>
           </div>
