@@ -1,6 +1,6 @@
 import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2";
 
-const timeoutMs = 15000;
+const timeoutMs = 45000;
 
 export function requiredEnv(name: string) {
   const value = Deno.env.get(name);
@@ -18,7 +18,11 @@ export function corsHeaders(request: Request) {
   const origin = request.headers.get("origin") ?? "";
   const configuredOrigins = (Deno.env.get("ALLOWED_ORIGINS") ?? "")
     .split(",").map((value) => value.trim()).filter(Boolean);
-  const allowed = origin === "" || configuredOrigins.includes(origin);
+  const isLocalOrigin = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
+  // When ALLOWED_ORIGINS is unset (typical local `supabase start`), allow localhost Vite.
+  const allowed = origin === ""
+    || configuredOrigins.includes(origin)
+    || (configuredOrigins.length === 0 && isLocalOrigin);
   return {
     "Access-Control-Allow-Origin": allowed ? (origin || "*") : "null",
     "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-client-info, x-razorpay-signature, x-shiprocket-token",
@@ -63,7 +67,11 @@ export async function fetchJson(url: string, init: RequestInit = {}) {
   const response = await fetch(url, { ...init, signal: AbortSignal.timeout(timeoutMs) });
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) {
-    const message = typeof payload?.message === "string" ? payload.message : `Provider request failed (${response.status}).`;
+    const message = typeof payload?.error?.message === "string"
+      ? payload.error.message
+      : typeof payload?.message === "string"
+      ? payload.message
+      : `Provider request failed (${response.status}).`;
     throw new Error(message);
   }
   return payload;

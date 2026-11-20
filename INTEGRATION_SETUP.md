@@ -10,7 +10,7 @@ Copy `.env.example` to `.env.local` and set only:
 - `VITE_SUPABASE_ANON_KEY`
 - `VITE_WHATSAPP_NUMBER` (international digits, no `+`)
 
-Only the Supabase anon key and public WhatsApp contact number belong in browser variables. The checkout receives the Razorpay key ID from the backend when an order is created. Do not put a service-role key, Razorpay secret, Shiprocket password, OpenAI key, Meta access token, or messaging-provider credential in a `VITE_*` variable.
+Only the Supabase anon key and public WhatsApp contact number belong in browser variables. The checkout receives the Razorpay key ID from the backend when an order is created. Do not put a service-role key, Razorpay secret, Shiprocket password, Gemini API key, Meta access token, or messaging-provider credential in a `VITE_*` variable.
 
 ## 2. Supabase database and functions
 
@@ -38,7 +38,7 @@ Required Edge Function secrets:
 | Core checkout | `ORDER_ACCESS_SECRET`, `ALLOWED_ORIGINS` |
 | Razorpay | `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET` |
 | Shiprocket | `SHIPROCKET_EMAIL`, `SHIPROCKET_PASSWORD`, `SHIPROCKET_PICKUP_PIN`, `SHIPROCKET_PICKUP_LOCATION`, `SHIPROCKET_WEBHOOK_TOKEN` |
-| AI chat | `OPENAI_API_KEY`; optional `OPENAI_MODEL` (defaults to `gpt-4o-mini`) |
+| AI chat | `GEMINI_API_KEY`; optional `GEMINI_MODEL` (defaults to `gemini-3.5-flash-lite`) |
 | WhatsApp Cloud API | `WHATSAPP_APP_SECRET`, `WHATSAPP_ACCESS_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_VERIFY_TOKEN`, `PUBLIC_SITE_URL` |
 | WhatsApp templates | `WHATSAPP_TEMPLATE_LANGUAGE`, `WHATSAPP_TEMPLATE_ORDER_CONFIRMED`, `WHATSAPP_TEMPLATE_PAYMENT_CONFIRMED`, `WHATSAPP_TEMPLATE_IN_TRANSIT`, `WHATSAPP_TEMPLATE_OUT_FOR_DELIVERY`, `WHATSAPP_TEMPLATE_DELIVERED` |
 | Optional email | `RESEND_API_KEY`, `RESEND_FROM_EMAIL` |
@@ -70,12 +70,12 @@ Shipment creation runs after verified payment (or for COD orders). Shiprocket AP
 1. Set up a Meta WhatsApp Business Platform app, phone number, permanent/rotating access token process, and webhook subscription.
 2. Configure callback URL `https://YOUR_PROJECT_REF.supabase.co/functions/v1/whatsapp-webhook`, the `WHATSAPP_VERIFY_TOKEN`, and subscribed `messages` events. Add Meta's app secret to `WHATSAPP_APP_SECRET` for `X-Hub-Signature-256` verification.
 3. Set `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_ACCESS_TOKEN`, `PUBLIC_SITE_URL`, and the approved template names as Supabase Edge Function secrets.
-4. Set an OpenAI API key as `OPENAI_API_KEY`. AI requests run only in the Edge Function; product cards, price and inventory availability are selected from Supabase. The website AI chat can also add a catalog item to the existing cart.
-5. Use `/admin/chat` to manage FAQs and assistant instructions, view conversations, assign/handoff, and reply. Add the administrator UUID to `public.admin_users` first.
+4. Create a free Gemini API key in [Google AI Studio](https://aistudio.google.com/apikey) and set it as the Edge Function secret `GEMINI_API_KEY` (`supabase secrets set GEMINI_API_KEY=...`). Optionally set `GEMINI_MODEL` (defaults to `gemini-3.5-flash-lite`). AI requests run only in the Edge Function; product cards, price and inventory availability are selected from Supabase. The assistant uses the live catalog plus Admin FAQs as its knowledge base. The website AI chat can also add a catalog item to the existing cart.
+5. Use `/admin/chat` to manage FAQs and assistant instructions, view conversations, assign/handoff, and reply. Add the administrator UUID to `public.admin_users` first. Starter FAQs ship with the migrations; edit or add more verified answers there.
 6. Use the independent WhatsApp and marketing opt-ins appropriately. The code only sends transactional WhatsApp templates to customers with transactional WhatsApp opt-in; it does not send marketing messages.
 7. Customers can request tracking by sending their `KD-...` order number from the same phone number used at checkout. WhatsApp can provide catalog recommendations and links, but does not yet create WhatsApp-originated carts/orders or Razorpay payment links; customers must complete payment through website checkout.
 
-The WhatsApp Cloud API, approved templates, Meta webhook registration, and OpenAI credentials are account prerequisites; they cannot be activated or verified from this repository alone.
+The WhatsApp Cloud API, approved templates, Meta webhook registration, and Gemini credentials are account prerequisites; they cannot be activated or verified from this repository alone.
 
 ## 6. Local checks and test plan
 
@@ -89,4 +89,4 @@ Run `npm install` after dependency changes and `npm run build` for the storefron
 | WhatsApp | webhook GET verification; invalid signature rejected; duplicate message ignored; English/Hindi request; product/price/stock grounded in catalog; human handoff; opted-in template delivery |
 | Admin | non-admin denied; admin order filter; stock/price edit; shipment label/cancel; chat reply; FAQ and prompt edit |
 
-This environment has no configured provider credentials and no Supabase, Razorpay, Shiprocket, Meta or OpenAI account connection, so those live scenarios have not been run. It also lacks the Supabase CLI, Deno and PostgreSQL client; migrations and Edge Function code still need CLI/database type validation in the target Supabase project before production deployment.
+This environment has no configured provider credentials and no Supabase, Razorpay, Shiprocket, Meta or Gemini account connection, so those live scenarios have not been run. It also lacks the Supabase CLI, Deno and PostgreSQL client; migrations and Edge Function code still need CLI/database type validation in the target Supabase project before production deployment.

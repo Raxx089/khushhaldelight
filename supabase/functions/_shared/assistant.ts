@@ -83,7 +83,7 @@ export async function generateAssistantReply(
     if (settings?.enabled === false) {
       return { reply: "Our automated assistant is taking a break. Please message our WhatsApp team for help.", products: [], handoff: true };
     }
-    const prompt = [
+    const systemInstruction = [
       settings?.system_prompt ?? "You are Khushhal Delight's chocolate shopping assistant.",
       "Be warm, concise and support English and Hindi.",
       "Use only the supplied FAQ and catalog.",
@@ -91,47 +91,50 @@ export async function generateAssistantReply(
       "Do not claim to add to cart, apply a coupon, place an order, create a payment, or book a shipment. Ask the customer to use the website controls or human WhatsApp support.",
       "Ask about recipient, occasion, budget, flavor and personalization when helping choose a gift.",
       "Recommend product IDs only from this catalog. Never invent product names or IDs.",
+      "Respond with JSON only matching {\"reply\": string, \"product_ids\": string[]}.",
       `Catalog: ${JSON.stringify(catalog.map(({ id, name, subtitle, category, flavor, description }) => ({
         id, name, subtitle, category, flavor, description,
       })))}`,
       `FAQ: ${JSON.stringify(faqs ?? [])}`,
     ].join("\n");
-    const messages = [
-      { role: "system", content: prompt },
+    const contents = [
       ...history.slice(-8).filter((message) => ["user", "assistant"].includes(message.role)).map((message) => ({
-        role: message.role, content: message.content.slice(0, 1000),
+        role: message.role === "assistant" ? "model" : "user",
+        parts: [{ text: message.content.slice(0, 1000) }],
       })),
-      { role: "user", content: userMessage },
+      { role: "user", parts: [{ text: userMessage }] },
     ];
-    const model = Deno.env.get("OPENAI_MODEL") || "gpt-4o-mini";
-    const result = await fetchJson("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${requiredEnv("OPENAI_API_KEY")}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model,
-        messages,
-        response_format: {
-          type: "json_schema",
-          json_schema: {
-            name: "khushhal_assistant_reply",
-            strict: true,
-            schema: {
-              type: "object",
+    const model = Deno.env.get("GEMINI_MODEL") || "gemini-3.5-flash-lite";
+    const apiKey = requiredEnv("GEMINI_API_KEY");
+    const result = await fetchJson(
+      `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+        body: JSON.stringify({
+          systemInstruction: { parts: [{ text: systemInstruction }] },
+          contents,
+          generationConfig: {
+            temperature: 0.3,
+            maxOutputTokens: 350,
+            responseMimeType: "application/json",
+            responseSchema: {
+              type: "OBJECT",
               properties: {
-                reply: { type: "string" },
-                product_ids: { type: "array", items: { type: "string" } },
+                reply: { type: "STRING" },
+                product_ids: { type: "ARRAY", items: { type: "STRING" } },
               },
               required: ["reply", "product_ids"],
-              additionalProperties: false,
             },
           },
-        },
-        max_tokens: 350,
-        temperature: 0.3,
-      }),
-    });
-    const content = result.choices?.[0]?.message?.content;
-    if (typeof content !== "string") throw new Error("AI assistant did not return a response.");
+        }),
+      },
+    );
+    const content = result.candidates?.[0]?.content?.parts
+      ?.map((part: { text?: string }) => part.text ?? "")
+      .join("")
+      .trim();
+    if (!content) throw new Error("AI assistant did not return a response.");
     const parsed = JSON.parse(content);
     reply = String(parsed.reply ?? "").slice(0, 1500);
     if (/(?:₹|INR\s*\d|Rs\.?\s*\d|\b(?:cost|price|priced|available|availability|in stock)\s+(?:is|are|at)\s+\d)/i.test(reply)) {

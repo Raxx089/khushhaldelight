@@ -63,7 +63,7 @@ Deno.serve(async (request) => {
       return json(request, {
         conversationId,
         status: conversation?.status ?? "open",
-        assistantAvailable: settings?.enabled !== false && Boolean(Deno.env.get("OPENAI_API_KEY")),
+        assistantAvailable: settings?.enabled !== false && Boolean(Deno.env.get("GEMINI_API_KEY")),
         messages: history ?? [],
       });
     }
@@ -141,13 +141,13 @@ Deno.serve(async (request) => {
     return json(request, {
       conversationId,
       status: result.handoff ? "handoff" : "open",
-      assistantAvailable: !result.handoff && Boolean(Deno.env.get("OPENAI_API_KEY")),
+      assistantAvailable: !result.handoff && Boolean(Deno.env.get("GEMINI_API_KEY")),
       ...result,
     });
   } catch (error) {
     const message = normalizeError(error);
     console.error("assistant chat failed", message);
-    const status = message.includes("OPENAI_API_KEY") ? 503 : 500;
+    const status = message.includes("GEMINI_API_KEY") ? 503 : 500;
     return json(request, { error: status === 503
       ? "AI chat is not configured for this store yet. Please use WhatsApp to reach our team."
       : message }, status);

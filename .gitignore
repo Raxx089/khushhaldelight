@@ -27,3 +27,12 @@ Thumbs.db
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# Local Supabase
+.supabase/
+
+supabase/.env
+supabase/functions/.env
+
+supabase/.branches/
+supabase/.temp/
