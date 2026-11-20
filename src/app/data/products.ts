@@ -21,6 +21,7 @@ export interface Product {
   inStock: boolean;
   stockCount: number;
   tags: string[];
+  customizations?: { label: string; value: string }[];
 }
 
 export const products: Product[] = [

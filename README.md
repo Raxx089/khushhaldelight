@@ -8,4 +8,6 @@
   Run `npm i` to install the dependencies.
 
   Run `npm run dev` to start the development server.
+
+  See [INTEGRATION_SETUP.md](./INTEGRATION_SETUP.md) for the Supabase, Razorpay, Shiprocket, WhatsApp, AI chat, environment, and deployment setup.
   

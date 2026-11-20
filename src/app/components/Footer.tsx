@@ -5,6 +5,7 @@ import logoImg from "../../imports/ChatGPT_Image_Jul_19__2026__07_47_05_PM.png";
 const footerLinks = {
   Shop: [
     { label: "All Chocolates", href: "/shop" },
+    { label: "Custom Name Bars", href: "/custom-name-bar" },
     { label: "Dark Chocolate", href: "/shop?category=Dark+Chocolate" },
     { label: "Gift Boxes", href: "/gift-boxes" },
     { label: "Truffles", href: "/shop?category=Truffles" },
@@ -69,7 +70,7 @@ export function Footer() {
             <Link to="/" className="inline-flex mb-6">
               <img
                 src={logoImg}
-                alt="TT Chocolates"
+                alt="Khushhal Delight"
                 className="h-20 w-auto object-contain rounded-full"
                 style={{ filter: "drop-shadow(0 2px 12px rgba(201,162,39,0.4))" }}
               />
@@ -140,7 +141,7 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-[var(--cream-300)]">
-            © 2026 TT Chocolates. All rights reserved. Made with{" "}
+            © 2026 Khushhal Delight. All rights reserved. Made with{" "}
             <Heart size={10} className="inline text-[var(--gold-500)]" fill="currentColor" /> in India.
           </p>
           <div className="flex items-center gap-4 text-xs text-[var(--cream-300)]">

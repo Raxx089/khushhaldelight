@@ -24,15 +24,13 @@ type CartAction =
   | { type: "OPEN_CART" }
   | { type: "CLOSE_CART" }
   | { type: "TOGGLE_CART" }
-  | { type: "APPLY_COUPON"; code: string }
+  | { type: "APPLY_COUPON"; code: string; discountAmount: number }
   | { type: "REMOVE_COUPON" }
   | { type: "CLEAR_CART" };
 
-const coupons: Record<string, number> = {
-  WELCOME10: 10,
-  SWEET20: 20,
-  LUXURY15: 15,
-};
+function clearCoupon(state: CartState) {
+  return { ...state, coupon: null, discount: 0 };
+}
 
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
@@ -40,7 +38,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       const existing = state.items.find((i) => i.product.id === action.product.id);
       if (existing) {
         return {
-          ...state,
+          ...clearCoupon(state),
           items: state.items.map((i) =>
             i.product.id === action.product.id
               ? { ...i, quantity: i.quantity + (action.quantity ?? 1) }
@@ -50,30 +48,30 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         };
       }
       return {
-        ...state,
+        ...clearCoupon(state),
         items: [...state.items, { product: action.product, quantity: action.quantity ?? 1, giftWrap: false }],
         isOpen: true,
       };
     }
     case "REMOVE_ITEM":
-      return { ...state, items: state.items.filter((i) => i.product.id !== action.productId) };
+      return clearCoupon({ ...state, items: state.items.filter((i) => i.product.id !== action.productId) });
     case "UPDATE_QUANTITY":
       if (action.quantity <= 0) {
-        return { ...state, items: state.items.filter((i) => i.product.id !== action.productId) };
+        return clearCoupon({ ...state, items: state.items.filter((i) => i.product.id !== action.productId) });
       }
-      return {
+      return clearCoupon({
         ...state,
         items: state.items.map((i) =>
           i.product.id === action.productId ? { ...i, quantity: action.quantity } : i
         ),
-      };
+      });
     case "TOGGLE_GIFT_WRAP":
-      return {
+      return clearCoupon({
         ...state,
         items: state.items.map((i) =>
           i.product.id === action.productId ? { ...i, giftWrap: !i.giftWrap } : i
         ),
-      };
+      });
     case "SET_MESSAGE":
       return {
         ...state,
@@ -87,10 +85,12 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       return { ...state, isOpen: false };
     case "TOGGLE_CART":
       return { ...state, isOpen: !state.isOpen };
-    case "APPLY_COUPON": {
-      const discount = coupons[action.code.toUpperCase()] ?? 0;
-      return { ...state, coupon: discount > 0 ? action.code.toUpperCase() : null, discount };
-    }
+    case "APPLY_COUPON":
+      return {
+        ...state,
+        coupon: action.code.toUpperCase(),
+        discount: Math.max(0, action.discountAmount),
+      };
     case "REMOVE_COUPON":
       return { ...state, coupon: null, discount: 0 };
     case "CLEAR_CART":
@@ -121,8 +121,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   });
 
   const totalItems = state.items.reduce((sum, i) => sum + i.quantity, 0);
-  const subtotal = state.items.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
-  const discountAmount = Math.round((subtotal * state.discount) / 100);
+  const subtotal = state.items.reduce((sum, i) => sum + (i.product.price + (i.giftWrap ? 49 : 0)) * i.quantity, 0);
+  const discountAmount = Math.min(subtotal, state.discount);
   const shipping = subtotal > 999 ? 0 : 99;
   const total = subtotal - discountAmount + shipping;
 

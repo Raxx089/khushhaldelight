@@ -18,6 +18,10 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
+    if (!product.inStock) {
+      toast.error("This item is currently unavailable.");
+      return;
+    }
     dispatch({ type: "ADD_ITEM", product });
     toast.success(`${product.name} added to cart`, {
       description: "Your cart has been updated.",
@@ -44,7 +48,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
       onMouseLeave={() => setIsHovered(false)}
       className="group"
     >
-      <Link to={`/product/${product.id}`} className="block">
+      <div className="block">
         {/* Image Container */}
         <div className="relative overflow-hidden rounded-2xl bg-[var(--cream-100)] aspect-square">
           <motion.img
@@ -84,6 +88,11 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             {product.stockCount <= 15 && product.inStock && (
               <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-red-500 text-white">
                 Only {product.stockCount} left
+              </span>
+            )}
+            {!product.inStock && (
+              <span className="px-2.5 py-1 rounded-full bg-black/70 text-xs font-semibold text-white">
+                Currently unavailable
               </span>
             )}
           </div>
@@ -126,7 +135,8 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           >
             <button
               onClick={handleAddToCart}
-              className="w-full py-2.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 text-[var(--choco-950)]"
+              disabled={!product.inStock}
+              className="w-full py-2.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 text-[var(--choco-950)] disabled:cursor-not-allowed disabled:opacity-70"
               style={{ background: "linear-gradient(135deg, #C9A227, #E8D5A3)" }}
             >
               <ShoppingBag size={15} />
@@ -140,12 +150,13 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           <p className="text-xs text-[var(--muted-foreground)] uppercase tracking-wider mb-1">
             {product.category}
           </p>
-          <h3
-            className="text-[var(--choco-900)] group-hover:text-[var(--choco-700)] transition-colors"
+          <Link to={`/product/${product.id}`}
+            onClick={(event) => event.stopPropagation()}
+            className="block text-[var(--choco-900)] group-hover:text-[var(--choco-700)] transition-colors"
             style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", fontSize: "1rem", fontWeight: 600 }}
           >
             {product.name}
-          </h3>
+          </Link>
           <p className="text-sm text-[var(--muted-foreground)] mt-0.5">{product.subtitle}</p>
 
           {/* Rating */}
@@ -183,7 +194,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             )}
           </div>
         </div>
-      </Link>
+      </div>
     </motion.div>
   );
 }

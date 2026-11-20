@@ -5,6 +5,7 @@ import {
   Search, ShoppingBag, Heart, User, Menu, X, ChevronDown, Phone
 } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 import logoImg from "../../imports/ChatGPT_Image_Jul_19__2026__07_47_05_PM.png";
 
 const navLinks = [
@@ -25,6 +26,7 @@ const navLinks = [
     href: "/gift-boxes",
     children: [
       { label: "All Gift Boxes", href: "/gift-boxes" },
+      { label: "Custom Name Bars", href: "/custom-name-bar" },
       { label: "Corporate Gifting", href: "/corporate" },
       { label: "Build Your Box", href: "/gift-boxes#builder" },
       { label: "Festive Collection", href: "/gift-boxes#festive" },
@@ -69,10 +71,10 @@ export function Navbar() {
       <div className="bg-[var(--choco-900)] text-[var(--gold-300)] text-xs py-2 px-4 text-center hidden md:flex items-center justify-between">
         <span className="flex items-center gap-1">
           <Phone size={11} />
-          +91 98765 43210
+          +91 87967 29435
         </span>
         <span>Free shipping on orders above ₹999 · Same-day dispatch before 2 PM</span>
-        <span>✦ Use code <strong>WELCOME10</strong> for 10% off your first order · Crafted with Love, Made to Delight</span>
+        <span>✦ Handcrafted with care · Crafted with Love, Made to Delight</span>
       </div>
 
       <header className={`sticky top-0 z-50 transition-all duration-300 ${navBg}`}>
@@ -82,7 +84,7 @@ export function Navbar() {
             <Link to="/" className="flex items-center">
               <img
                 src={logoImg}
-                alt="TT Chocolates"
+                alt="Khushhal Delight"
                 className="h-12 md:h-14 w-auto object-contain rounded-full"
                 style={{ filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.3))" }}
               />
@@ -141,6 +143,9 @@ export function Navbar() {
 
             {/* Right Actions */}
             <div className="flex items-center gap-3">
+              <div className="hidden sm:block">
+                <ThemeSwitcher />
+              </div>
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
                 className={`p-2 rounded-full transition-colors hover:opacity-70 ${textColor}`}
@@ -237,7 +242,7 @@ export function Navbar() {
                   </div>
                 ))}
                 <div className="pt-4 pb-2 flex justify-center">
-                  <img src={logoImg} alt="TT Chocolates" className="h-16 w-auto object-contain rounded-full" />
+                  <img src={logoImg} alt="Khushhal Delight" className="h-16 w-auto object-contain rounded-full" />
                 </div>
                 <div className="flex gap-4">
                   <Link to="/login" className="flex-1 text-center py-2.5 rounded-lg bg-[var(--choco-800)] text-white text-sm font-medium">
@@ -246,6 +251,9 @@ export function Navbar() {
                   <Link to="/account" className="flex-1 text-center py-2.5 rounded-lg border border-[var(--choco-800)] text-[var(--choco-800)] text-sm font-medium">
                     My Account
                   </Link>
+                </div>
+                <div className="mt-4 sm:hidden">
+                  <ThemeSwitcher compact />
                 </div>
               </div>
             </motion.div>

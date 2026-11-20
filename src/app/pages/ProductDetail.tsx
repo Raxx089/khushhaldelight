@@ -6,14 +6,15 @@ import {
   Truck, Shield, RefreshCw, Gift, Plus, Minus, ChevronDown,
   Leaf, Award, Package
 } from "lucide-react";
-import { getProductById, products } from "../data/products";
+import { useCatalogProducts } from "../hooks/useCatalogProducts";
 import { useCart } from "../context/CartContext";
 import { ProductCard } from "../components/ProductCard";
 import { toast } from "sonner";
 
 export function ProductDetail() {
   const { id } = useParams<{ id: string }>();
-  const product = getProductById(id || "");
+  const { products, loading, error } = useCatalogProducts();
+  const product = products.find((candidate) => candidate.id === id);
   const { dispatch } = useCart();
 
   const [imgIdx, setImgIdx] = useState(0);
@@ -29,7 +30,10 @@ export function ProductDetail() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", color: "var(--choco-800)", fontSize: "1.5rem" }}>Product not found</h2>
+          <h2 style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", color: "var(--choco-800)", fontSize: "1.5rem" }}>
+            {loading ? "Loading verified product…" : error ? "Product catalog unavailable" : "Product not found or unavailable"}
+          </h2>
+          {error && <p role="status" className="mt-2 max-w-md text-sm text-[var(--muted-foreground)]">Live product prices and stock could not be verified. Please try again later.</p>}
           <Link to="/shop" className="mt-4 block text-[var(--gold-600)] hover:underline">
             Back to Shop
           </Link>
@@ -41,6 +45,10 @@ export function ProductDetail() {
   const related = products.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
 
   const handleAddToCart = () => {
+    if (!product.inStock) {
+      toast.error("This item is currently unavailable.");
+      return;
+    }
     dispatch({ type: "ADD_ITEM", product, quantity });
     if (giftWrap) dispatch({ type: "TOGGLE_GIFT_WRAP", productId: product.id });
     if (message) dispatch({ type: "SET_MESSAGE", productId: product.id, message });
@@ -244,11 +252,12 @@ export function ProductDetail() {
             <div className="flex flex-col sm:flex-row gap-3 mb-6">
               <button
                 onClick={handleAddToCart}
-                className="flex-1 py-4 rounded-xl font-semibold flex items-center justify-center gap-2 text-[var(--choco-950)] transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                disabled={!product.inStock}
+                className="flex-1 py-4 rounded-xl font-semibold flex items-center justify-center gap-2 text-[var(--choco-950)] transition-transform hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
                 style={{ background: "linear-gradient(135deg, #C9A227, #E8D5A3)" }}
               >
                 <ShoppingBag size={18} />
-                Add to Cart
+                {product.inStock ? "Add to Cart" : "Currently unavailable"}
               </button>
               <button
                 className="flex-1 py-4 rounded-xl font-semibold border-2 border-[var(--choco-700)] text-[var(--choco-800)] hover:bg-[var(--choco-800)] hover:text-white transition-all"

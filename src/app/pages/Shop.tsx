@@ -3,7 +3,8 @@ import { motion } from "motion/react";
 import { Search, SlidersHorizontal, X, ChevronDown, Grid3X3, LayoutList } from "lucide-react";
 import { useSearchParams } from "react-router";
 import { ProductCard } from "../components/ProductCard";
-import { products, categories, flavors } from "../data/products";
+import { categories, flavors } from "../data/products";
+import { useCatalogProducts } from "../hooks/useCatalogProducts";
 
 const sortOptions = [
   { label: "Featured", value: "featured" },
@@ -17,6 +18,7 @@ const occasions = ["All", "Birthday", "Anniversary", "Wedding", "Corporate", "Di
 const weights = ["All", "Under 100g", "100g–200g", "200g–500g", "500g+"];
 
 export function Shop() {
+  const { products, loading, error } = useCatalogProducts();
   const [searchParams] = useSearchParams();
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get("category") || "All");
@@ -67,7 +69,7 @@ export function Shop() {
     }
 
     return result;
-  }, [search, selectedCategory, selectedFlavor, priceRange, sortBy, filterFlag]);
+  }, [products, search, selectedCategory, selectedFlavor, priceRange, sortBy, filterFlag]);
 
   const activeFilters = [
     selectedCategory !== "All" && selectedCategory,
@@ -85,11 +87,12 @@ export function Shop() {
           {filterFlag === "new" ? "New Arrivals" : filterFlag === "bestseller" ? "Best Sellers" : "The Chocolate Shop"}
         </h1>
         <p className="text-[var(--cream-300)] mt-3">
-          {filtered.length} products found
+          {loading ? "Updating catalog…" : `${filtered.length} products found`}
         </p>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {error && <p role="status" className="mb-5 rounded-xl bg-amber-50 p-3 text-xs text-amber-900">Live prices and stock could not be refreshed: {error}. Products remain unavailable until inventory is verified.</p>}
         {/* Toolbar */}
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
           <div className="relative flex-1">

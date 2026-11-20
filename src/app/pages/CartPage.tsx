@@ -3,25 +3,37 @@ import { Link } from "react-router";
 import { motion } from "motion/react";
 import { Trash2, Plus, Minus, Tag, ArrowRight, ShoppingBag, Gift, Truck } from "lucide-react";
 import { useCart } from "../context/CartContext";
-import { products } from "../data/products";
+import { useCatalogProducts } from "../hooks/useCatalogProducts";
 import { ProductCard } from "../components/ProductCard";
+import { callCommerce } from "../lib/commerce";
 
 export function CartPage() {
   const { state, dispatch, subtotal, discountAmount, total, shipping } = useCart();
+  const { products } = useCatalogProducts();
   const [couponInput, setCouponInput] = useState("");
   const [couponMsg, setCouponMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [checkingCoupon, setCheckingCoupon] = useState(false);
 
-  const handleApplyCoupon = () => {
-    if (!couponInput) return;
-    dispatch({ type: "APPLY_COUPON", code: couponInput });
-    if (["WELCOME10", "SWEET20", "LUXURY15"].includes(couponInput.toUpperCase())) {
-      setCouponMsg({ type: "success", text: "Coupon applied successfully!" });
-    } else {
-      setCouponMsg({ type: "error", text: "Invalid coupon code. Try WELCOME10, SWEET20, or LUXURY15." });
+  const handleApplyCoupon = async () => {
+    if (!couponInput.trim() || checkingCoupon) return;
+    setCheckingCoupon(true);
+    setCouponMsg(null);
+    try {
+      const result = await callCommerce<{ code: string; discountPaise: number }>("validate-coupon", {
+        code: couponInput,
+        subtotal_paise: Math.round(subtotal * 100),
+      });
+      dispatch({ type: "APPLY_COUPON", code: result.code, discountAmount: result.discountPaise / 100 });
+      setCouponMsg({ type: "success", text: `${result.code} applied. Final discount is verified again at checkout.` });
+      setCouponInput("");
+    } catch (error) {
+      setCouponMsg({ type: "error", text: error instanceof Error ? error.message : "Could not validate this coupon." });
+    } finally {
+      setCheckingCoupon(false);
     }
   };
 
-  const suggestions = products.filter((p) => !state.items.find((i) => i.product.id === p.id)).slice(0, 4);
+  const suggestions = products.filter((p) => p.inStock && !state.items.find((i) => i.product.id === p.id)).slice(0, 4);
 
   if (state.items.length === 0) {
     return (
@@ -90,7 +102,7 @@ export function CartPage() {
                 className="bg-white rounded-2xl p-5 border border-[var(--border)] shadow-sm"
               >
                 <div className="flex gap-5">
-                  <Link to={`/product/${item.product.id}`}>
+                  <Link to={item.product.customizations ? "/custom-name-bar" : `/product/${item.product.id}`}>
                     <img
                       src={item.product.image}
                       alt={item.product.name}
@@ -100,16 +112,25 @@ export function CartPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-4">
                       <div>
-                        <Link to={`/product/${item.product.id}`}>
+                        <Link to={item.product.customizations ? "/custom-name-bar" : `/product/${item.product.id}`}>
                           <h3 className="text-[var(--choco-800)] hover:text-[var(--choco-600)] transition-colors" style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", fontWeight: 600 }}>
                             {item.product.name}
                           </h3>
                         </Link>
                         <p className="text-sm text-[var(--muted-foreground)] mt-0.5">{item.product.subtitle}</p>
                         <p className="text-xs text-[var(--muted-foreground)]">{item.product.weight} · {item.product.flavor}</p>
+                        {item.product.customizations && (
+                          <ul className="mt-2 grid gap-x-4 gap-y-1 text-xs text-[var(--muted-foreground)] sm:grid-cols-2">
+                            {item.product.customizations.map((customization) => (
+                              <li key={customization.label}>
+                                <span className="font-medium text-[var(--choco-700)]">{customization.label}:</span> {customization.value}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
                       <span className="font-bold text-[var(--choco-800)] shrink-0" style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif", fontSize: "1.1rem" }}>
-                        ₹{(item.product.price * item.quantity).toLocaleString("en-IN")}
+                        ₹{((item.product.price + (item.giftWrap ? 49 : 0)) * item.quantity).toLocaleString("en-IN")}
                       </span>
                     </div>
 
@@ -196,10 +217,11 @@ export function CartPage() {
                       />
                     </div>
                     <button
-                      onClick={handleApplyCoupon}
-                      className="px-4 rounded-xl bg-[var(--choco-800)] text-white text-sm font-medium"
+                      onClick={() => void handleApplyCoupon()}
+                      disabled={checkingCoupon || !couponInput.trim()}
+                      className="px-4 rounded-xl bg-[var(--choco-800)] text-white text-sm font-medium disabled:opacity-60"
                     >
-                      Apply
+                      {checkingCoupon ? "Checking..." : "Apply"}
                     </button>
                   </div>
                   {couponMsg && (
@@ -207,7 +229,6 @@ export function CartPage() {
                       {couponMsg.text}
                     </p>
                   )}
-                  <p className="text-[10px] text-[var(--muted-foreground)] mt-1">Try: WELCOME10, SWEET20, LUXURY15</p>
                 </div>
               )}
 

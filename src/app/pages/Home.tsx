@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
 import { ArrowRight, Star, ChevronLeft, ChevronRight, Sparkles, Package, Truck, Award, Leaf, ShieldCheck } from "lucide-react";
 import { ProductCard } from "../components/ProductCard";
-import { getBestSellers, getNewArrivals } from "../data/products";
+import { useCatalogProducts } from "../hooks/useCatalogProducts";
 
 const heroImages = [
   {
@@ -34,7 +34,7 @@ const reviews = [
     name: "Priya Sharma",
     location: "Mumbai",
     rating: 5,
-    text: "TT Chocolates is unlike anything I've tasted. The 85% Noir Intense is hauntingly good — complex, smooth, and absolutely addictive. I've been ordering every month.",
+    text: "Khushhal Delight is unlike anything I've tasted. The 85% Noir Intense is hauntingly good — complex, smooth, and absolutely addictive. I've been ordering every month.",
     avatar: "PS",
   },
   {
@@ -55,7 +55,7 @@ const reviews = [
     name: "Vikram Nair",
     location: "Chennai",
     rating: 5,
-    text: "I've gifted TT Chocolates at two weddings now. Both couples were blown away. Their festive box is the only gift anyone talks about.",
+    text: "I've gifted Khushhal Delight at two weddings now. Both couples were blown away. Their festive box is the only gift anyone talks about.",
     avatar: "VN",
   },
   {
@@ -86,6 +86,7 @@ const instagramImages = [
 ];
 
 export function Home() {
+  const { products, error } = useCatalogProducts();
   const [heroIdx, setHeroIdx] = useState(0);
   const [reviewIdx, setReviewIdx] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -93,8 +94,8 @@ export function Home() {
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
-  const bestSellers = getBestSellers();
-  const newArrivals = getNewArrivals();
+  const bestSellers = products.filter((product) => product.isBestSeller);
+  const newArrivals = products.filter((product) => product.isNew);
 
   const visibleReviews = 3;
   const maxReviewIdx = Math.max(0, reviews.length - visibleReviews);
@@ -138,7 +139,7 @@ export function Home() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                ✦ TT Chocolates · Est. 2018
+                ✦ Khushhal Delight · Est. 2018
               </motion.p>
               <h1
                 className="text-white mb-6"
@@ -192,6 +193,12 @@ export function Home() {
           <ChevronRight size={20} />
         </button>
       </section>
+
+      {error && (
+        <p role="status" className="mx-auto mt-6 max-w-7xl px-4 text-xs text-amber-800 sm:px-6 lg:px-8">
+          Product availability is hidden until the live catalog can be verified.
+        </p>
+      )}
 
       {/* ── Trust Strip ── */}
       <section className="bg-[var(--choco-800)] py-4 overflow-hidden">
@@ -346,7 +353,7 @@ export function Home() {
       {/* ── Why Choose Us ── */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-14">
-          <p className="text-[var(--gold-600)] uppercase tracking-[0.4em] text-xs mb-3">The TT Chocolates Promise</p>
+          <p className="text-[var(--gold-600)] uppercase tracking-[0.4em] text-xs mb-3">The Khushhal Delight Promise</p>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 4vw, 3rem)", color: "var(--choco-900)", fontWeight: 700 }}>
             Why Choose Us
           </h2>
@@ -544,4 +551,3 @@ export function Home() {
     </div>
   );
 }
-

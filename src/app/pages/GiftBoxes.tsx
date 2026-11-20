@@ -2,10 +2,8 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router";
 import { Check, ArrowRight, Gift, Sparkles, Heart } from "lucide-react";
-import { products } from "../data/products";
-import { useCart } from "../context/CartContext";
 import { ProductCard } from "../components/ProductCard";
-import { toast } from "sonner";
+import { useCatalogProducts } from "../hooks/useCatalogProducts";
 
 const giftBoxSizes = [
   { id: "small", label: "Sweet Start", pieces: 9, price: 799, desc: "Perfect for a thoughtful gesture" },
@@ -25,8 +23,6 @@ const chocolateOptions = [
   { id: "c8", name: "Almond & Sea Salt", flavor: "Dark", img: "https://images.unsplash.com/photo-1720029106261-0d0396bb270d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=100" },
 ];
 
-const giftBoxProducts = products.filter((p) => p.category === "Gift Boxes");
-
 const occasions = [
   { label: "Birthday", emoji: "🎂" },
   { label: "Anniversary", emoji: "💕" },
@@ -43,7 +39,8 @@ export function GiftBoxes() {
   const [selectedChocolates, setSelectedChocolates] = useState<string[]>([]);
   const [giftMessage, setGiftMessage] = useState("");
   const [giftWrap, setGiftWrap] = useState(true);
-  const { dispatch } = useCart();
+  const { products } = useCatalogProducts();
+  const giftBoxProducts = products.filter((product) => product.category === "Gift Boxes");
 
   const selectedSizeData = giftBoxSizes.find((s) => s.id === selectedSize)!;
 
@@ -53,30 +50,6 @@ export function GiftBoxes() {
     } else if (selectedChocolates.length < selectedSizeData.pieces) {
       setSelectedChocolates([...selectedChocolates, id]);
     }
-  };
-
-  const handleAddCustomBox = () => {
-    const mockProduct = {
-      id: `custom-${Date.now()}`,
-      name: `Custom ${selectedSizeData.label}`,
-      subtitle: `${selectedChocolates.length} chocolates, handpicked by you`,
-      price: selectedSizeData.price,
-      image: "https://images.unsplash.com/photo-1548741487-18d363dc4469?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-      images: [],
-      category: "Gift Boxes",
-      flavor: "Assorted",
-      weight: `${selectedSizeData.pieces * 15}g`,
-      rating: 5,
-      reviewCount: 0,
-      description: "",
-      ingredients: "",
-      allergens: "",
-      inStock: true,
-      stockCount: 99,
-      tags: ["custom", "gift"],
-    };
-    dispatch({ type: "ADD_ITEM", product: mockProduct });
-    toast.success("Custom gift box added to cart!", { description: `${selectedSizeData.pieces} pieces · ₹${selectedSizeData.price.toLocaleString("en-IN")}` });
   };
 
   return (
@@ -239,14 +212,16 @@ export function GiftBoxes() {
           </div>
 
           <button
-            onClick={handleAddCustomBox}
-            disabled={selectedChocolates.length === 0}
+            disabled
             className="w-full py-5 rounded-2xl font-semibold text-[var(--choco-950)] flex items-center justify-center gap-3 transition-all hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed"
             style={{ background: "linear-gradient(135deg, #C9A227, #E8D5A3)" }}
           >
             <Sparkles size={20} />
-            Add Custom Box to Cart — ₹{selectedSizeData.price.toLocaleString("en-IN")}
+            Custom Box Checkout Unavailable
           </button>
+          <p role="status" className="mt-3 text-center text-sm text-[var(--muted-foreground)]">
+            Custom box checkout will be enabled once its contents, pricing, and stock are connected to the verified catalog. Your selections will not be added to your cart.
+          </p>
         </div>
       </section>
 

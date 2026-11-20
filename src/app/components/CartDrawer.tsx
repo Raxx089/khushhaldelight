@@ -3,28 +3,54 @@ import { motion, AnimatePresence } from "motion/react";
 import { X, ShoppingBag, Trash2, Plus, Minus, Gift, ArrowRight, Tag } from "lucide-react";
 import { Link } from "react-router";
 import { useCart } from "../context/CartContext";
+import { callCommerce } from "../lib/commerce";
 
 function CouponForm() {
-  const { dispatch } = useCart();
+  const { dispatch, subtotal } = useCart();
   const [code, setCode] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const applyCoupon = async () => {
+    if (!code.trim() || busy) return;
+    setBusy(true);
+    setError("");
+    try {
+      const result = await callCommerce<{ code: string; discountPaise: number }>("validate-coupon", {
+        code,
+        subtotal_paise: Math.round(subtotal * 100),
+      });
+      dispatch({ type: "APPLY_COUPON", code: result.code, discountAmount: result.discountPaise / 100 });
+      setCode("");
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Could not validate this coupon.");
+    } finally {
+      setBusy(false);
+    }
+  };
 
   return (
-    <div className="flex gap-2">
-      <div className="flex-1 relative">
-        <Tag size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)]" />
-        <input
-          value={code}
-          onChange={(e) => setCode(e.target.value.toUpperCase())}
-          placeholder="Enter coupon code"
-          className="w-full pl-8 pr-3 py-2 rounded-lg text-xs bg-white border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--gold-500)]"
-        />
+    <div>
+      <div className="flex gap-2">
+        <div className="flex-1 relative">
+          <Tag size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)]" />
+          <input
+            value={code}
+            onChange={(e) => setCode(e.target.value.toUpperCase())}
+            placeholder="Enter coupon code"
+            className="w-full pl-8 pr-3 py-2 rounded-lg text-xs bg-white border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--gold-500)]"
+          />
+        </div>
+        <button
+          type="button"
+          onClick={() => void applyCoupon()}
+          disabled={busy || !code.trim()}
+          className="px-4 py-2 rounded-lg text-xs font-semibold bg-[var(--choco-800)] text-white whitespace-nowrap disabled:opacity-60"
+        >
+          {busy ? "Checking..." : "Apply"}
+        </button>
       </div>
-      <button
-        onClick={() => dispatch({ type: "APPLY_COUPON", code })}
-        className="px-4 py-2 rounded-lg text-xs font-semibold bg-[var(--choco-800)] text-white whitespace-nowrap"
-      >
-        Apply
-      </button>
+      {error && <p role="alert" className="mt-2 text-xs text-red-600">{error}</p>}
     </div>
   );
 }
@@ -119,6 +145,15 @@ export function CartDrawer() {
                             <Trash2 size={15} />
                           </button>
                         </div>
+                        {item.product.customizations && (
+                          <ul className="mt-2 space-y-0.5 text-[10px] text-[var(--muted-foreground)]">
+                            {item.product.customizations.map((customization) => (
+                              <li key={customization.label}>
+                                <span className="font-medium text-[var(--choco-700)]">{customization.label}:</span> {customization.value}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                         <button
                           onClick={() => dispatch({ type: "TOGGLE_GIFT_WRAP", productId: item.product.id })}
                           className={`flex items-center gap-1 mt-1 text-xs transition-colors ${item.giftWrap ? "text-[var(--gold-600)] font-medium" : "text-[var(--muted-foreground)]"}`}
@@ -143,7 +178,7 @@ export function CartDrawer() {
                             </button>
                           </div>
                           <span className="text-sm font-bold text-[var(--choco-800)]" style={{ fontFamily: "'Montserrat', 'DM Sans', system-ui, sans-serif" }}>
-                            ₹{(item.product.price * item.quantity).toLocaleString("en-IN")}
+                            ₹{((item.product.price + (item.giftWrap ? 49 : 0)) * item.quantity).toLocaleString("en-IN")}
                           </span>
                         </div>
                       </div>
