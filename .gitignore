@@ -1,1 +1,29 @@
-node_modules
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build
+dist/
+dist-ssr/
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Logs & caches
+*.log
+.vite/
+.cache/
+.turbo/
+
+# Lockfiles from other package managers
+package-lock.json
+yarn.lock
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
